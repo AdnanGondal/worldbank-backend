@@ -1,18 +1,16 @@
 const { Pool } = require("pg");
-require('dotenv').config()
-
+require("dotenv").config();
 
 const pool = new Pool({
-               user: process.env.PGUSER ,
-                host: process.env.PGHOST,
-                database: process.env.PGDATABASE,
-                password: process.env.PGPASSWORD,
-                port: process.env.PGPORT,
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
 });
 
 const query = async (query, params = null) => {
   let response;
-
 
   if (params) {
     response = await pool.query(query, params);
@@ -31,4 +29,4 @@ const getClient = async () => {
 module.exports = {
   query,
   getClient,
-}
+};

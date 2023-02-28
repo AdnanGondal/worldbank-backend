@@ -1,10 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-const users = require("./src/routes/users.route")
-const { errorLogger,errorHandler, invalidPathHandler } = require("./src/middleware/errorHandling");
+const users = require("./src/routes/users.route");
+const {
+  errorLogger,
+  errorHandler,
+  invalidPathHandler,
+} = require("./src/middleware/errorHandling");
 
 if (process.env.NODE_ENV !== "production") {
-	require("dotenv").config();
+  require("dotenv").config();
 }
 
 const PORT = process.env.PORT || 8080;
@@ -22,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 app.get("/api/", (req, res) => {
-	res.json({ message: "API is active" });
+  res.json({ message: "API is active" });
 });
 
 app.use("/api/users", users);
@@ -32,5 +36,5 @@ app.use(errorHandler);
 app.use(invalidPathHandler);
 
 app.listen(PORT, () => {
-	console.log(`Server listening on ${PORT}`);
+  console.log(`Server listening on ${PORT}`);
 });
