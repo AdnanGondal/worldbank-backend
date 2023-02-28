@@ -1,4 +1,4 @@
-class InvalidRequest extends Error {
+class NotFound extends Error {
   constructor(message) {
     super(message);
 
@@ -18,4 +18,4 @@ class InvalidRequest extends Error {
   }
 }
 
-module.exports = InvalidRequest;
+module.exports = NotFound;
