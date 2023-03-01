@@ -1,5 +1,5 @@
-const { Client } = require("pg");
-const dotenv = require("dotenv");
+const { Client } = require('pg');
+const dotenv = require('dotenv');
 dotenv.config();
 
 const client = new Client({
@@ -10,18 +10,23 @@ const client = new Client({
   port: process.env.PGPORT,
 });
 
-async function createDatabase() {
+async function teardownDatabase(client) {
   await client.connect();
-  createUsersTable();
-  // addSeedData();
-  //createSessionsTable();
-  // createHistoryTable();
-  // createCountrySearchesTable();
-  // createIndicatorSearchesTable();
+}
+
+async function createDatabaseTables(client) {
+  await client.connect();
+  createUsersTable(client);
+  // addSeedData(client);
+  //createSessionsTable(client);
+  // createHistoryTable(client);
+  // createCountrySearchesTable(client);
+  // createIndicatorSearchesTable(client);
+  await client.end();
   return;
 }
 
-async function createUsersTable() {
+async function createUsersTable(client) {
   const sql = `
   CREATE TABLE users(
   id SERIAL PRIMARY KEY,
@@ -32,16 +37,16 @@ async function createUsersTable() {
 
   try {
     const res = await client.query(sql);
-    console.log("Users table created");
+    console.log('Users table created');
     return;
   } catch (err) {
     console.log(err);
-    console.log("Users table issue");
+    console.log('Users table issue');
     return;
   }
 }
 
-async function createSessionsTable() {
+async function createSessionsTable(client) {
   const sql = `
   CREATE TABLE sessions(
   uuid TEXT PRIMARY KEY,
@@ -51,31 +56,31 @@ async function createSessionsTable() {
 
   try {
     const res = await client.query(sql);
-    console.log("Sessions table created");
+    console.log('Sessions table created');
     return;
   } catch (err) {
     console.log(err);
-    console.log("Sessions table issue");
+    console.log('Sessions table issue');
     return;
   }
 }
 
-async function addSeedData() {
+async function addSeedData(client) {
   const sql = `
  INSERT INTO users(username, password) VALUES('test', 'test')`;
 
   try {
     const res = await client.query(sql);
-    console.log("Seed Data added");
+    console.log('Seed Data added');
     return;
   } catch (err) {
     console.log(err);
-    console.log("Seed data issue");
+    console.log('Seed data issue');
     return;
   }
 }
 
-async function createSessionsTable() {
+async function createSessionsTable(client) {
   const sql = `
   CREATE TABLE sessions(
   uuid TEXT PRIMARY KEY,
@@ -85,16 +90,16 @@ async function createSessionsTable() {
 
   try {
     const res = await client.query(sql);
-    console.log("Sessions table created");
+    console.log('Sessions table created');
     return;
   } catch (err) {
     console.log(err);
-    console.log("Sessions table issue");
+    console.log('Sessions table issue');
     return;
   }
 }
 
-async function createHistoryTable() {
+async function createHistoryTable(client) {
   const sql = `
   CREATE TABLE history(
     id SERIAL PRIMARY KEY,
@@ -107,16 +112,16 @@ async function createHistoryTable() {
   `;
   try {
     const res = await client.query(sql);
-    console.log("History table created");
+    console.log('History table created');
     return;
   } catch (err) {
     console.log(err);
-    console.log("History table issue");
+    console.log('History table issue');
     return;
   }
 }
 
-async function createCountrySearchesTable() {
+async function createCountrySearchesTable(client) {
   const sql = `
   CREATE TABLE countrysearches(
     id SERIAL PRIMARY KEY ,
@@ -128,15 +133,15 @@ async function createCountrySearchesTable() {
   `;
   try {
     const res = await client.query(sql);
-    console.log("CountrySearches table created");
+    console.log('CountrySearches table created');
     return;
   } catch (err) {
     console.log(err);
-    console.log("CountrySearches table issue");
+    console.log('CountrySearches table issue');
     return;
   }
 }
-async function createIndicatorSearchesTable() {
+async function createIndicatorSearchesTable(client) {
   const sql = `
   CREATE TABLE indicatorSearches(
     id SERIAL PRIMARY KEY,
@@ -146,13 +151,15 @@ async function createIndicatorSearchesTable() {
   `;
   try {
     const res = await client.query(sql);
-    console.log("IndicatorSearches table created");
+    console.log('IndicatorSearches table created');
     return;
   } catch (err) {
     console.log(err);
-    console.log("IndicatorSearches table issue");
+    console.log('IndicatorSearches table issue');
     return;
   }
 }
 
-createDatabase();
+module.exports = {
+  createDatabaseTables,
+};
