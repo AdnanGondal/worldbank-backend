@@ -17,7 +17,7 @@ const createUser = async (username, password) => {
 };
 
 const verifyUser = async (username, password) => {
-	const storedPassword = await usersRepo.getUserPasswrd(username, password);
+	const storedPassword = await usersRepo.getUserPassword(username);
 
 	if (storedPassword.rows[0]) {
 		const passwordMatches = await bcrypt.compare(

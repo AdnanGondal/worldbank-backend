@@ -11,15 +11,12 @@ const createUser = async function (userename, password) {
 	]);
 };
 
-const getUserPasswrd = async function (userename, password) {
-	return db.query("SELECT password FROM users WHERE username=$1s", [
-		userename,
-		password,
-	]);
+const getUserPassword = async function (userename) {
+	return db.query("SELECT password FROM users WHERE username=$1", [userename]);
 };
 
 module.exports = {
 	getDuplicateRegistrations,
 	createUser,
-	getUserPasswrd,
+	getUserPassword,
 };

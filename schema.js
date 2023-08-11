@@ -1,33 +1,46 @@
-const { Client } = require('pg');
-const dotenv = require('dotenv');
+const { Client } = require("pg");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const client = new Client({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
+	user: process.env.PGUSER,
+	host: process.env.PGHOST,
+	database: process.env.PGDATABASE,
+	password: process.env.PGPASSWORD,
+	port: process.env.PGPORT,
 });
 
-async function teardownDatabase(client) {
-  await client.connect();
+createDatabaseTables(client);
+
+async function createDatabaseTables() {
+	await client.connect();
+	//teardownDatabase(client); //WARNING: All data will be lost if used in deployed environment
+	await createUsersTable(client);
+	// createSessionsTable(client);
+	// createHistoryTable(client);
+	// createCountrySearchesTable(client);
+	// createIndicatorSearchesTable(client);
+	// addSeedData(client);
+	await client.end();
+	return;
 }
 
-async function createDatabaseTables(client) {
-  await client.connect();
-  createUsersTable(client);
-  // addSeedData(client);
-  //createSessionsTable(client);
-  // createHistoryTable(client);
-  // createCountrySearchesTable(client);
-  // createIndicatorSearchesTable(client);
-  await client.end();
-  return;
+async function teardownDatabase(client) {
+	const sql = `
+  DROP DATABASE IF EXISTS worldbank`;
+	try {
+		const res = await client.query(sql);
+		console.log("Database removed");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("Remove database issue");
+		return;
+	}
 }
 
 async function createUsersTable(client) {
-  const sql = `
+	const sql = `
   CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   username TEXT NOT NULL UNIQUE,
@@ -35,72 +48,72 @@ async function createUsersTable(client) {
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`;
 
-  try {
-    const res = await client.query(sql);
-    console.log('Users table created');
-    return;
-  } catch (err) {
-    console.log(err);
-    console.log('Users table issue');
-    return;
-  }
+	try {
+		const res = await client.query(sql);
+		console.log("Users table created");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("Users table issue");
+		return;
+	}
 }
 
 async function createSessionsTable(client) {
-  const sql = `
+	const sql = `
   CREATE TABLE sessions(
   uuid TEXT PRIMARY KEY,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   user_id INTEGER REFERENCES users(id)
   )`;
 
-  try {
-    const res = await client.query(sql);
-    console.log('Sessions table created');
-    return;
-  } catch (err) {
-    console.log(err);
-    console.log('Sessions table issue');
-    return;
-  }
+	try {
+		const res = await client.query(sql);
+		console.log("Sessions table created");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("Sessions table issue");
+		return;
+	}
 }
 
 async function addSeedData(client) {
-  const sql = `
+	const sql = `
  INSERT INTO users(username, password) VALUES('test', 'test')`;
 
-  try {
-    const res = await client.query(sql);
-    console.log('Seed Data added');
-    return;
-  } catch (err) {
-    console.log(err);
-    console.log('Seed data issue');
-    return;
-  }
+	try {
+		const res = await client.query(sql);
+		console.log("Seed Data added");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("Seed data issue");
+		return;
+	}
 }
 
 async function createSessionsTable(client) {
-  const sql = `
+	const sql = `
   CREATE TABLE sessions(
   uuid TEXT PRIMARY KEY,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   user_id INTEGER REFERENCES users(id)
   )`;
 
-  try {
-    const res = await client.query(sql);
-    console.log('Sessions table created');
-    return;
-  } catch (err) {
-    console.log(err);
-    console.log('Sessions table issue');
-    return;
-  }
+	try {
+		const res = await client.query(sql);
+		console.log("Sessions table created");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("Sessions table issue");
+		return;
+	}
 }
 
 async function createHistoryTable(client) {
-  const sql = `
+	const sql = `
   CREATE TABLE history(
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
@@ -110,19 +123,19 @@ async function createHistoryTable(client) {
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   )
   `;
-  try {
-    const res = await client.query(sql);
-    console.log('History table created');
-    return;
-  } catch (err) {
-    console.log(err);
-    console.log('History table issue');
-    return;
-  }
+	try {
+		const res = await client.query(sql);
+		console.log("History table created");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("History table issue");
+		return;
+	}
 }
 
 async function createCountrySearchesTable(client) {
-  const sql = `
+	const sql = `
   CREATE TABLE countrysearches(
     id SERIAL PRIMARY KEY ,
     name TEXT NOT NULL,
@@ -131,35 +144,35 @@ async function createCountrySearchesTable(client) {
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   )
   `;
-  try {
-    const res = await client.query(sql);
-    console.log('CountrySearches table created');
-    return;
-  } catch (err) {
-    console.log(err);
-    console.log('CountrySearches table issue');
-    return;
-  }
+	try {
+		const res = await client.query(sql);
+		console.log("CountrySearches table created");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("CountrySearches table issue");
+		return;
+	}
 }
 async function createIndicatorSearchesTable(client) {
-  const sql = `
+	const sql = `
   CREATE TABLE indicatorSearches(
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     history_id SERIAL NOT NULL REFERENCES history(id)
   )
   `;
-  try {
-    const res = await client.query(sql);
-    console.log('IndicatorSearches table created');
-    return;
-  } catch (err) {
-    console.log(err);
-    console.log('IndicatorSearches table issue');
-    return;
-  }
+	try {
+		const res = await client.query(sql);
+		console.log("IndicatorSearches table created");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("IndicatorSearches table issue");
+		return;
+	}
 }
 
 module.exports = {
-  createDatabaseTables,
+	createDatabaseTables,
 };
