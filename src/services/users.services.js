@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const InvalidRequest = require("../errors/InvalidRequest");
 const usersRepo = require("../repository/users.repository");
 const Unauthroised = require("../errors/Unauthorised");
+const sessionsService = require("../services/sessions.service");
 
 const createUser = async (username, password) => {
 	const duplicate = await usersRepo.getDuplicateRegistrations(username);
@@ -17,14 +18,18 @@ const createUser = async (username, password) => {
 };
 
 const verifyUser = async (username, password) => {
-	const storedPassword = await usersRepo.getUserPassword(username);
+	const userRecord = await usersRepo.getUserIdAndPassword(username);
 
-	if (storedPassword.rows[0]) {
-		const passwordMatches = await bcrypt.compare(
-			password,
-			storedPassword.rows[0].password,
-		);
-		if (passwordMatches) return true;
+	if (userRecord.rows[0]) {
+		const userId = userRecord.rows[0].id;
+		const storedPassword = userRecord.rows[0].password;
+
+		console.log(userRecord.rows[0]);
+		const passwordMatches = await bcrypt.compare(password, storedPassword);
+
+		if (passwordMatches) {
+			return sessionsService.createSession(userId);
+		}
 		return false;
 	} else {
 		throw new Unauthroised("User not found");

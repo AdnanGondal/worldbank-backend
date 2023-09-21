@@ -10,13 +10,16 @@ const userRegister = async function (req, res, next) {
 	}
 };
 
-const userVerify = async function (req, res, next) {
+const userLogin = async function (req, res, next) {
 	const { username, password } = await req.body;
 	try {
-		validUser = await usersService.verifyUser(username, password);
+		sessionId = await usersService.verifyUser(username, password);
 
-		if (validUser) {
-			res.status(200).json({ message: "loggedIn" }, 200);
+		if (sessionId) {
+			res
+				.status(200)
+				.cookie("sessionId", sessionId)
+				.json({ message: "loggedIn" }, 200);
 		} else {
 			res.status(401).json({ message: "Incorrect Password" });
 		}
@@ -27,5 +30,5 @@ const userVerify = async function (req, res, next) {
 
 module.exports = {
 	userRegister,
-	userVerify,
+	userLogin,
 };

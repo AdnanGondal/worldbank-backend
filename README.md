@@ -7,8 +7,7 @@ Backend for World for Women frontend [here](https://github.com/gsinghlak12/world
 | Method | URI                  | Parameters               | Description                                               | Status |
 | ------ | -------------------- | ------------------------ | --------------------------------------------------------- | ------ |
 | POST   | /api/users           | Body: username, password | User registration; checks if user exists in the database. | Done   |
-| POST   | /api/users/verify    | Body: username, password | Check username and password match                         | Done   |
-| POST   | /api/sessions        | Body: username, password | Add a user session and send cookie                        | To Do  |
+| POST   | /api/users/sessions    | Body: username, password | Check username and password match                         | Done   |
 | GET    | /api/sessions/cookie |                          | Check cookie exists                                       | To Do  |
 
 ## Running Locally

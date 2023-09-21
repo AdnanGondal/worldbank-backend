@@ -16,7 +16,7 @@ async function createDatabaseTables() {
 	await client.connect();
 	//teardownDatabase(client); //WARNING: All data will be lost if used in deployed environment
 	await createUsersTable(client);
-	// createSessionsTable(client);
+	await createSessionsTable(client);
 	// createHistoryTable(client);
 	// createCountrySearchesTable(client);
 	// createIndicatorSearchesTable(client);
