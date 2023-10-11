@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const InvalidRequest = require("../errors/InvalidRequest");
 const usersRepo = require("../repository/users.repository");
 const Unauthroised = require("../errors/Unauthorised");
-const sessionsService = require("../services/sessions.service");
+const sessionsService = require("./sessions.services");
 
 const createUser = async (username, password) => {
 	const duplicate = await usersRepo.getDuplicateRegistrations(username);

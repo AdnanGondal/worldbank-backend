@@ -7,6 +7,13 @@ const createSession = async (userId) => {
 	return sessionID;
 };
 
+const verifySession = async (cookie) => {
+	const sessionFound = await sessionsRepo.getSession(cookie.sessionId || "");
+	// console.log(sessionFound.rows.length > 0 ? true : false);
+	return sessionFound.rows.length > 0 ? true : false;
+};
+
 module.exports = {
 	createSession,
+	verifySession,
 };

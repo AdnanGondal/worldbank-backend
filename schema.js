@@ -93,25 +93,6 @@ async function addSeedData(client) {
 	}
 }
 
-async function createSessionsTable(client) {
-	const sql = `
-  CREATE TABLE sessions(
-  uuid TEXT PRIMARY KEY,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  user_id INTEGER REFERENCES users(id)
-  )`;
-
-	try {
-		const res = await client.query(sql);
-		console.log("Sessions table created");
-		return;
-	} catch (err) {
-		console.log(err);
-		console.log("Sessions table issue");
-		return;
-	}
-}
-
 async function createHistoryTable(client) {
 	const sql = `
   CREATE TABLE history(

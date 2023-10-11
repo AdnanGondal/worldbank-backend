@@ -7,10 +7,15 @@ const saveSession = async function (sessionID, userId) {
 	]);
 };
 
-// const getCookie = async function (userename) {
-// 	return db.query("SELECT password FROM users WHERE username=$1", [userename]);
-// };
+const getSession = async function (uuid) {
+	return db.query("SELECT uuid, user_id FROM sessions WHERE uuid=$1", [uuid]);
+};
+
+const deleteSession = async function (uuid) {
+	return db.query("DELETE FROM sessions WHERE uuid=$1", [uuid]);
+};
 
 module.exports = {
 	saveSession,
+	getSession,
 };
