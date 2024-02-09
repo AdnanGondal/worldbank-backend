@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const PORT = process.env.PORT || 8080;
 const ORIGIN = process.env.URL || "http://localhost:5000";
-console.log("origin is "+ ORIGIN);
+console.log(`origin is ${ORIGIN}`);
 
 const app = express();
 
