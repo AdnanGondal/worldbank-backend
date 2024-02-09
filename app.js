@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const users = require("./src/routes/users.route");
 const sessions = require("./src/routes/sessions.route");
+const countries = require("./src/routes/countries.route");
 const cookieParser = require("cookie-parser");
 
 const {
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const PORT = process.env.PORT || 8080;
 const ORIGIN = process.env.URL || "http://localhost:5000";
-console.log(ORIGIN);
+console.log(`origin is ${ORIGIN}`);
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.get("/api/", (req, res) => {
 
 app.use("/api/users", users);
 app.use("/api/sessions", sessions);
+app.use("/api/countries", countries);
 
 app.use(errorLogger);
 app.use(errorHandler);
