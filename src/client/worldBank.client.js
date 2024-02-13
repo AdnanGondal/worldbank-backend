@@ -17,6 +17,19 @@ const getAllCountries = async function () {
 	}
 };
 
+const getIndicatorByCodeAndCountry = async function (indicatorCode, country) {
+	console.log(`Getting data for ${indicatorCode} and ${country}`);
+	const response = await fetch(
+		config.world_bank_api.getIndicatorForCountry
+			.replace("{country}", country)
+			.replace("{indicator}", indicatorCode),
+	);
+	const indicatorData = await response.json();
+	console.log(indicatorData[0]);
+
+	return indicatorData[1];
+};
+
 const getBackupCountries = function () {
 	return [
 		createCountry("IND", "India"),
@@ -31,4 +44,5 @@ const createCountry = function (countryCode, countryName) {
 
 module.exports = {
 	getAllCountries,
+	getIndicatorByCodeAndCountry,
 };

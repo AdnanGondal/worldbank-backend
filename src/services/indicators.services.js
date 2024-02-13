@@ -4,8 +4,12 @@ const getAllIndicators = function () {
 	return getIndicatorData();
 };
 
-const getSingleIndicatorData = async function (country) {
-	return;
+const getSingleIndicatorData = async function (indicator, country) {
+	const indicatorData = await worldBankClient.getIndicatorByCodeAndCountry(
+		indicator,
+		country,
+	);
+	return arrangeIndicatorData(indicatorData);
 };
 
 const getIndicatorData = function () {
@@ -23,6 +27,22 @@ const getIndicatorData = function () {
 			"Female Life expectancy at birth (years)",
 		),
 	];
+};
+
+const arrangeIndicatorData = function (data) {
+	const plot = data.reduce(
+		(obj, elem) => {
+			obj.years.push(elem.date);
+			obj.value.push(elem.value);
+			return obj;
+		},
+		{ years: [], value: [] },
+	);
+
+	plot.indicator = data[0].indicator.value;
+	plot.country = data[0].country.value;
+
+	return plot;
 };
 
 // function getIndicatorsData() {
