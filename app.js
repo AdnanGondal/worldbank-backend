@@ -3,6 +3,7 @@ const cors = require("cors");
 const users = require("./src/routes/users.route");
 const sessions = require("./src/routes/sessions.route");
 const countries = require("./src/routes/countries.route");
+const indicators = require("./src/routes/indicators.route");
 const cookieParser = require("cookie-parser");
 
 const {
@@ -28,13 +29,14 @@ app.use(cookieParser());
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-app.get("/api/", (req, res) => {
+app.get("/api", (req, res) => {
 	res.json({ message: "API is active" });
 });
 
 app.use("/api/users", users);
 app.use("/api/sessions", sessions);
 app.use("/api/countries", countries);
+app.use("/api/indicators", indicators);
 
 app.use(errorLogger);
 app.use(errorHandler);
