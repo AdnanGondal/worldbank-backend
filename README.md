@@ -12,7 +12,7 @@ Backend for World for Women frontend [here](https://github.com/gsinghlak12/world
 | GET    | /api/countries |                                | Get a list of countries in the worldbank database          | Done |
 | GET    | /api/indicators |                                | Get a list of indicators in the worldbank database        | DONE |
 | GET    | /api/:indicator/countries/:country |     | Get an indicator plot for a given country         | DONE |
-| GET    | /api/:indicator/countries/:country1?country2|                                | Get plot of two countries     | TO DO |
+| GET    | /api/:indicator/countries/:country1/:country2|                                | Get plot of two countries     | DONE |
 
 
 
@@ -30,7 +30,7 @@ psql -U postgres (on docker container terminal)
 
 CREATE DATABASE worldbank (first time only)
 
-node schema.js
+node schema.js (first time only)
 ```
 
 ## Contributing
