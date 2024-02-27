@@ -6,7 +6,8 @@
 	"scripts": {
 		"test": "mocha \"./test/**/*.js\" --exit",
 		"start": "nodemon app.js",
-		"build": "cd client && npm install && npm run build",
+		"startDeployed": "node app.js",
+		"build": "npm install",
 		"lint": "./node_modules/.bin/eslint"
 	},
 	"keywords": [],
@@ -30,6 +31,7 @@
 		"node": "16.11.1"
 	},
 	"devDependencies": {
+		"@flydotio/dockerfile": "^0.5.2",
 		"chai": "^4.3.7",
 		"chai-http": "^4.3.0",
 		"eslint": "^8.35.0",
