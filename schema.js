@@ -1,13 +1,12 @@
 const { Client } = require("pg");
-const dotenv = require("dotenv");
-dotenv.config();
+const config = require("./config");
 
 const client = new Client({
-	user: process.env.PGUSER,
-	host: process.env.PGHOST,
-	database: process.env.PGDATABASE,
-	password: process.env.PGPASSWORD,
-	port: process.env.PGPORT,
+	user: config.postgres.pg_user,
+	host: config.postgres.pg_host,
+	database: config.postgres.pg_database,
+	password: config.postgres.pg_password,
+	port: config.postgres.pg_port,
 });
 
 createDatabaseTables(client);

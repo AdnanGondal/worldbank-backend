@@ -30,7 +30,7 @@ psql -U postgres (on docker container terminal)
 
 CREATE DATABASE worldbank (first time only)
 
-node schema.js
+node schema.js (first time only)
 ```
 
 ## Contributing
