@@ -9,7 +9,44 @@ const getSingleIndicatorData = async function (indicator, country) {
 		indicator,
 		country,
 	);
-	return arrangeIndicatorData(indicatorData);
+	return { data: [arrangeIndicatorData(indicatorData)] };
+};
+
+const getCountryComparisionIndicatorData = async function (
+	indicator,
+	country1,
+	country2,
+) {
+	const indicatorData1 = await worldBankClient.getIndicatorByCodeAndCountry(
+		indicator,
+		country1,
+	);
+	const indicatorData2 = await worldBankClient.getIndicatorByCodeAndCountry(
+		indicator,
+		country2,
+	);
+	return {
+		data: [
+			arrangeIndicatorData(indicatorData1),
+			arrangeIndicatorData(indicatorData2),
+		],
+	};
+};
+
+const arrangeIndicatorData = function (data) {
+	const plot = data.reduce(
+		(obj, elem) => {
+			obj.years.push(elem.date);
+			obj.value.push(elem.value);
+			return obj;
+		},
+		{ years: [], value: [] },
+	);
+
+	plot.indicator = data[0].indicator.value;
+	plot.country = data[0].country.value;
+
+	return plot;
 };
 
 const getIndicatorData = function () {
@@ -29,20 +66,8 @@ const getIndicatorData = function () {
 	];
 };
 
-const arrangeIndicatorData = function (data) {
-	const plot = data.reduce(
-		(obj, elem) => {
-			obj.years.push(elem.date);
-			obj.value.push(elem.value);
-			return obj;
-		},
-		{ years: [], value: [] },
-	);
-
-	plot.indicator = data[0].indicator.value;
-	plot.country = data[0].country.value;
-
-	return plot;
+const createIndicator = function (code, indicatorName) {
+	return { seriescode: code, indicatorname: indicatorName };
 };
 
 // function getIndicatorsData() {
@@ -72,12 +97,8 @@ const arrangeIndicatorData = function (data) {
 // 		"SL.TLF.TOTL.FE.ZS",
 // 	];
 // }
-
-const createIndicator = function (code, indicatorName) {
-	return { seriescode: code, indicatorname: indicatorName };
-};
-
 module.exports = {
 	getAllIndicators,
 	getSingleIndicatorData,
+	getCountryComparisionIndicatorData,
 };

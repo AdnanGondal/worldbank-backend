@@ -11,7 +11,7 @@ const getAllCountries = async function () {
 		});
 	} catch {
 		console.log(
-			"Error getting countries data from API, returning bacckup countries",
+			"Error getting countries data from API, returning backup countries",
 		);
 		return getBackupCountries();
 	}

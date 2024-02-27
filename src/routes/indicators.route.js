@@ -9,4 +9,9 @@ router.get(
 	indicatorsController.getIndicatorByCodeAndCountry,
 );
 
+router.get(
+	"/:indicator_code/countries/:country_code1/:country_code2",
+	indicatorsController.getIndicatorByCodeAndCompareCountries,
+);
+
 module.exports = router;
