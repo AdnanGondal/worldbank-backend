@@ -22,7 +22,7 @@ console.log(`origin is ${ORIGIN}`);
 
 const app = express();
 
-app.use(cors({ origin: ORIGIN, credentials: true }));
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
