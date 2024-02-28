@@ -14,6 +14,13 @@ Backend for World for Women frontend [here](https://github.com/gsinghlak12/world
 | GET    | /api/:indicator/countries/:country |     | Get an indicator plot for a given country         | DONE |
 | GET    | /api/:indicator/countries/:country1/:country2|                                | Get plot of two countries     | DONE |
 
+## Deployment
+
+The API is currently deployed at via fly.io:
+Use: 
+
+https://worldbank-backend.fly.dev/
+Followed by the API endpoints above.
 
 
 ## Running Locally
